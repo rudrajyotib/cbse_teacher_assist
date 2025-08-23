@@ -1,0 +1,10 @@
+work-area/**
+venv
+venv*/**
+.venv
+.venv*/**
+processed
+processed/**
+__pycache__
+input
+input/**

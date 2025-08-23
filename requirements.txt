@@ -1,0 +1,22 @@
+# Core
+pillow
+pymupdf==1.22.5       # PyMuPDF (fitz) for PDF -> images
+easyocr                # OCR (printed + some handwriting)
+sentence-transformers # embeddings
+transformers
+sentencepiece
+torch
+faiss-cpu             # if available; fallback handled in script
+scikit-learn
+python-dotenv
+pypdf>=3.11.0
+
+# dev / optional
+tqdm
+python-magic
+gradio
+pdf2image
+pytesseract
+spacy
+pathlib
+openai

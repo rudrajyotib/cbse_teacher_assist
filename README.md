@@ -1,5 +1,5 @@
 ---
-title: Assistant Teacher
+title: Teacher's Assistant for CBSE Curriculum
 emoji: 📚
 colorFrom: gray
 colorTo: green

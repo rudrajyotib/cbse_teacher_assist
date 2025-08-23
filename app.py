@@ -18,7 +18,7 @@ def run(mode, grade, subject, user_input, num_q):
         return "Invalid mode selected. Please choose 'Answer', 'Questions', or 'Explain'."
 
 with gr.Blocks() as demo:
-    gr.Markdown("# 📚 CBSE RAG Tutor")
+    gr.Markdown("# 📚 Teacher's Assistant")
     with gr.Row():
         grade = gr.Dropdown([str(i) for i in range(1,13)], value="4", label="Grade")
         subject = gr.Dropdown(["math","science","sst","english","hindi"], value="science", label="Subject")

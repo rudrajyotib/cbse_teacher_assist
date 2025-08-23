@@ -1,6 +1,6 @@
 ---
 title: Assistant Teacher
-emoji: 🐨
+emoji: 📚
 colorFrom: gray
 colorTo: green
 sdk: gradio

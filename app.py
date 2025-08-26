@@ -2,6 +2,36 @@
 import gradio as gr
 from teacher_assist import create_question, answer_question, explain_concept
 
+# CSS for larger font size
+custom_css = """
+/* Markdown output */
+.prose p, .prose li {
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+}
+.prose h1 {
+    font-size: 28px !important;
+    margin-top: 16px !important;
+    margin-bottom: 12px !important;
+}
+.prose h2 {
+    font-size: 24px !important;
+    margin-top: 14px !important;
+    margin-bottom: 10px !important;
+}
+.prose h3 {
+    font-size: 20px !important;
+    margin-top: 12px !important;
+    margin-bottom: 8px !important;
+}
+
+/* Input textbox font size */
+textarea {
+    font-size: 18px !important;
+    line-height: 1.4 !important;
+}
+"""
+
 
 def run(mode, grade, subject, user_input, num_q):
     # filter by meta (optional)
@@ -17,7 +47,7 @@ def run(mode, grade, subject, user_input, num_q):
     else:
         return "Invalid mode selected. Please choose 'Answer', 'Questions', or 'Explain'."
 
-with gr.Blocks() as demo:
+with gr.Blocks(css=custom_css) as demo:
     gr.Markdown("# 📚 Teacher's Assistant")
     with gr.Row():
         grade = gr.Dropdown([str(i) for i in range(1,13)], value="4", label="Grade")

@@ -46,24 +46,30 @@ except Exception as e:
     print(f"Error loading data: {e}")
 
 def search(query, k=3, filters=None):
-    """Search for relevant text chunks based on the query"""
-    # Embed query
+    """Search for relevant text chunks based on the query (cosine similarity)."""
     try:
+        # 🔑 Embed query
         response = client.embeddings.create(
             model=EMBED_MODEL,
             input=query
         )
         q_embed = np.array([response.data[0].embedding], dtype="float32")
-        print("Query embedding created")
-        print(q_embed)
+        # normalize query
+        q_embed /= np.linalg.norm(q_embed, axis=1, keepdims=True)
+        print("✅ Query embedding created & normalized")
     except Exception as e:
-        print(f"Error creating embedding: {e}")
+        print(f"❌ Error creating embedding: {e}")
         return []
 
-    # Search
-    distances, indices = index.search(q_embed, k * 3)  # search wider to apply filters
-    print(f"Search results (distances): {distances}")
-    print(f"Search results (indices): {indices}")
+    # 🔍 Search in FAISS
+    similarities, indices = index.search(q_embed, k * 3)  # oversample to apply filters
+    top_score = similarities[0][0]
+    print(f"🔎 Top similarity score: {top_score:.2f}")
+
+    # Adjust threshold (cosine sim: 0.0–1.0)
+    if top_score < 0.55:
+        print(f"⚠️ No relevant chunks found (top similarity {top_score:.2f} < 0.55)")
+        return []
 
     results = []
     for i, idx in enumerate(indices[0]):
@@ -213,7 +219,7 @@ def create_question(query, filters=None, questionCount = 5):
 if __name__ == "__main__":
     # Test the search functionality
     print("Testing search functionality...")
-    query = "What is Chlorophyll?"
+    query = "food chain"
     filters = {"grade": "4", "subject": "science"}
 
     hits = search(query, k=2, filters=filters)
@@ -225,10 +231,10 @@ if __name__ == "__main__":
         print(f"Text snippet: {text[:200]}...")
 
     # Test the answer generation
-    print("\nGenerating answer to a sample question...")
-    answer = answer_question(query, filters=filters)
-    questions = create_question(query, questionCount=3, filters=filters)
-    print("\nAnswer:")
+    print("\nGenerating explanation to a sample topic...")
+    answer = explain_concept(query, filters=filters)
+    print("\nExplanation:")
     print(answer)
     print("\nGenerated Questions:")
+    questions = create_question(query, questionCount=3, filters=filters)
     print(questions)

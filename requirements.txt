@@ -20,3 +20,4 @@ pytesseract
 spacy
 pathlib
 openai
+tiktoken
